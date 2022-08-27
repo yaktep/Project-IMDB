@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- hi this is a comment -->
+<head>
+    <meta charset="UTF-8">
+    <title>Movie IMDB</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    {% if user.is_authenticated %}
+            <p>Logged in as {{ user }} </p>
+            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+            <a href="{% url 'Movies:create' %}" class="highlight">Add your film review</a>
+         {% else %}
+            <a href="{% url 'accounts:login' %}">Login</a>
+            <a href="{% url 'accounts:signup' %}">Signup</a>
+        {% endif %}
+    {% block content %}
+    {% endblock %}
+    </div>
+</body>
+</html>
