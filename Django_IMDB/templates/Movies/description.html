@@ -1,7 +1,60 @@
 {% extends 'Movies\base_layout.html' %}
 {% block content %}
+<br>
+<br>
 
-    <p>{{movie.plot}}</p>
+<div class="container_1">
+    <div class="item-a" align="center"> {{movie.title}}</div>
+    <div class="item-b"> Genre: {{movie.genre}}
+        <br>
+        <br>
+        <span> Cast </span>
+        <br>
+        <span> Direcor: {{movie.director}} </span>
+        <br>
+        <span> Writer: {{movie.writers}} </span>
+        <br>
+        <span> Actors: {{movie.actors}} </span>
+        <br>
+        <br>
+        <span> Plot </span>
+        <br>
+        <span> {{movie.plot}} </span>
 
+
+    </div>
+    <div class="item-c"><img src="{{ movie.poster.url }}" class="img"></div>
+    <div class="item-d"> Specs: year:{{movie.year}} | Runtime: {{movie.running_time}}</div>
+</div>
+
+<br>
+<br>
+
+<span><button class="button"><a
+        href="{% url 'Movies:create' %}?next={{ request.path|urlencode }}">Add your film review</a></button></span>
+<span><button class="button"><a href="{% url 'Movies:gallery' %}">Back To Home Page</a></button></span>
+<br>
+<br>
+
+
+<div class="reviews">
+    <h3>This movie has {{count}} reviews</h3>
+    {% for review in reviews %}
+
+    <div class="container_1">
+        <div class="item-a" align="center"> {{review.title}}</div>
+        <div class="item-b"> Posted by: {{review.user}}
+            <br>
+            <br>
+            <span> Posted on {{review.date_modified}}</span>
+        </div>
+        <div class="item-c">{{review.in_long}}</div>
+        <div class="item-d"> Overall Score: {{review.score}}</div>
+    </div>
+    <br>
+
+
+    {% endfor %}
+</div>
 
 {% endblock %}

@@ -1,13 +1,17 @@
 {% extends 'Movies\base_layout.html' %}
 {% block content %}
-    <h1> This is the home page</h1>
-    <div class="movies">
 
-        {% for movie in movies %}
+<div class="container">
 
-            <h2><a href="{% url 'Movies:description' slug=movie.slug %}"><img src="{{ movie.poster.url }}" width="150px", height="auto"></a></h2>
-            <h3>{{movie.title}}</h3>
-        {% endfor %}
+    {% for movie in movies %}
+
+    <div class="item">
+        <a href="{% url 'Movies:description' slug=movie.slug %}"><img src="{{ movie.poster.url }}"
+                                                                                    width="150px"
+                                                                                    height="auto"></a>
+        <h3 class="movie_title">{{movie.title}}</h3>
     </div>
+    {% endfor %}
+</div>
 {% endblock %}
 

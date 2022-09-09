@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Movie
+from .models import Review
 from django.contrib.auth.decorators import login_required
 from . import forms
-
-
-# from django.contrib.auth.decorators import login_required
-# from . import forms
+from django.db.models import Count
 
 
 # Create your views here.
@@ -23,11 +21,9 @@ def movie_gallery(request):
 def movie_description(request, slug):
     # print(f"article\\views - article_detail: slug={slug}")
     movie = Movie.objects.get(slug=slug)
-    return render(request, "Movies/description.html", {'movie': movie})
-
-
-def review_create1(request):
-    return render(request, 'Movies/review_create1.html')
+    reviews = Review.objects.all().filter(movie=movie)
+    reviews_count = len(reviews)
+    return render(request, "Movies/description.html", {'movie': movie, 'reviews': reviews, 'count': reviews_count})
 
 
 @login_required(login_url="/accounts/login")
@@ -37,18 +33,19 @@ def review_create2(request):
 
 @login_required(login_url="/accounts/login")
 def review_create(request):
-    form = None
-    if request.method == "POST":
-        form = forms.CreateReview(request.POST, request.FILES)
+    if request.method == 'POST':
+
+        form = forms.CreateReview(request.POST)
+
+        # check whether it's valid:
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
             instance.save()
-            return redirect('Movies:gallery')
-        else:
-            form = forms.CreateReview()
-    return render(request, 'Movies/review_create.html', {
-        'form': form,
-        'user': request.user
-    })
+            nextpage = request.POST.get('next', '/')
+            return HttpResponseRedirect(nextpage)
 
+    else:
+        form = forms.CreateReview()
+
+    return render(request, 'Movies/review_create.html', {'form': form})

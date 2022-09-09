@@ -2,10 +2,11 @@
 {% block content %}
     <div class="create-review">
         <h2>Add a new film review</h2>
-        <form class='site-form' action="{% url 'Movies:create' %}" method='post' enctype='multipart/form-data'>
+        <form action="{% url 'Movies:create' %}" method="post">
             {% csrf_token %}
             {{ form }}
-            <input type='submit' value='create'>
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            <input type="submit" value="Create">
         </form>
     </div>
 {% endblock %}

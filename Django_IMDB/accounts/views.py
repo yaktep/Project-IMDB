@@ -25,7 +25,7 @@ def login_view1(request):
             print(f"request method == POST, form is valid")
             user = form.get_user()
             login(request, user)
-            return redirect('Movies:gallery')
+            return redirect('Movies:description')
     else:
         form = AuthenticationForm()
     return render(request, 'accounts/login1.html', {"form": form})
