@@ -4,7 +4,14 @@ from .models import Movie
 from .models import Review
 from django.contrib.auth.decorators import login_required
 from . import forms
-from django.db.models import Count
+from rest_framework import viewsets, permissions
+from .serializers import MovieSerializer
+
+
+class MovieView(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 # Create your views here.
