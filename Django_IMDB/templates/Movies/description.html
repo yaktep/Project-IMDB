@@ -30,12 +30,20 @@
 <br>
 <br>
 
-<span><button class="button"><a
-        href="{% url 'Movies:create' %}?next={{ request.path|urlencode }}">Add your film review</a></button></span>
+<span><button class="button" onclick="showForm()">Add your film review</button></span>
 <span><button class="button"><a href="{% url 'Movies:gallery' %}">Back To Home Page</a></button></span>
 <br>
 <br>
 
+<div id="create-review" style="display: none;">
+    <h2>Add a new film review</h2>
+    <form action="{% url 'Movies:create' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <input type="submit" value="Create">
+    </form>
+</div>
 
 <div class="reviews">
     <h3>This movie has {{count}} reviews</h3>
