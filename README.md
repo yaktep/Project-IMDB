@@ -1,4 +1,4 @@
-# GoCardless sample application
+# IMDB-like movie review site
 
 ## Setup
 
