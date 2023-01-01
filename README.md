@@ -12,6 +12,7 @@ $ cd Project-IMDB
 Create a virtual environment to install dependencies in and activate it:
 
 ```sh
+$ py -m venv venv
 $ venv\Scripts\activate
 ```
 
